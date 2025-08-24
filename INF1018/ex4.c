@@ -24,8 +24,3 @@ int main() {
   return 0;
 }
 
-//Sobre o armazenamento das variáveis c e i, e do vetor v:
-
-//O armazenamento da variável c está em decimal, visto que o caracter 1 vale 1 em decimal e o caracter '1' vale 49 (visto na tabela ASCII).
-//Já o armazenamento da váriavel i é em binário, tendo little endian como sua ordem de armazenamento.
-//Por último, o armazenamento da váriavel v também está em decimal.
