@@ -8,7 +8,7 @@ void dump (void *p, int n) {
   }
 }
 
-int main (void) {
+/*int main (void) {
   int i = 1000;
   long j = 20000;
   short k = 12;
@@ -29,5 +29,11 @@ int main (void) {
 
   printf("INICIO: \n");
   dump(&m, sizeof(m));
+  return 0;
+}*/
+
+int main (void) {
+  char p[] = "$";
+  dump(p, sizeof(p));
   return 0;
 }
