@@ -1,7 +1,8 @@
 #include <ctype.h>
 #include <stdio.h>
 
-/*int string2num (char *s) {
+/*a)
+int string2num (char *s) {
   int a = 0;
   for (; *s; s++)
     a = a*10 + (*s - '0');
@@ -15,6 +16,7 @@ int main (void) {
   return 0;
 }
 
+b)
 int string2num (char *s, int base) {
   int a = 0;
   for (; *s; s++)
@@ -25,7 +27,9 @@ int string2num (char *s, int base) {
 int main (void) {
 printf("%d\n", string2num("777", 8));
 printf("%d\n", string2num("777", 10));
-} */
+} 
+
+c)*/
 
 int string2num (char *s, int base) {
     int a = 0, val;
