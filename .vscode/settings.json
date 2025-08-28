@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "ex1_2.C": "cpp",
+        "ex2_3.C": "cpp"
+    }
+}
