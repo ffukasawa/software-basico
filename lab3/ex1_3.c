@@ -5,7 +5,7 @@ int main(void) {
   //1000 0111 0110 0101 0100 0011 0010 0001(x)
   unsigned int y, z;
 
-  /* o byte menos significativo de x e os outros bits em 0 */
+  // o byte menos significativo de x e os outros bits em 0 
   //0000 0000 0000 0000 0000 0000 1111 1111(y)
   y = x & 0xFF; //y = 0x000000FF;
 
