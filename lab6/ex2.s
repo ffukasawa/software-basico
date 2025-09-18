@@ -15,7 +15,8 @@ Dicionário
 Registrador Variável
 ebx         i
 r12         *p
-eax         
+ecx         sum
+         
 */
 
 #seguimento de dados(inicializados)
@@ -40,12 +41,19 @@ main:
 
   movl  $0, %ebx  /* ebx = 0;  ebx como variavel i*/
   movq  $nums, %r12  /* r12 = &nums; r12 é a variavel p*/
+  movl  $0, %ecx /*int sum = 0;*/
 
 L1:
   cmpl  $4, %ebx  /* if (ebx == 4) ? */
   je  L2          /* goto L2 */
 
-  movl  (%r12), %eax    /* eax = *r12 */
+  addl  (%r12), %ecx /* sum += *p; */
+  addl  $1, %ebx  /* ebx += 1; i++ */
+  addq  $4, %r12  /* r12 += 4; p++ (somar 4 quando é ponteiro) */
+  jmp  L1         /* goto L1; */
+
+L2: 
+ movl  %ecx, %eax  /* eax = ecx */
 
 /*************************************************************/
 /* este trecho imprime o valor de %eax (estraga %eax)  */
@@ -54,11 +62,6 @@ L1:
   call  printf       /* chama a funcao da biblioteca */
 /*************************************************************/
 
-  addl  $1, %ebx  /* ebx += 1; i++ */
-  addq  $4, %r12  /* r12 += 4; p++ (somar 4 quando é ponteiro) */
-  jmp  L1         /* goto L1; */
-
-L2:  
 /***************************************************************/
 /* mantenha este trecho aqui e nao mexa - finalizacao!!!!      */
   movq  $0, %rax  /* rax = 0  (valor de retorno) */
