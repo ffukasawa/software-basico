@@ -1,23 +1,32 @@
-/*
+/* 
+#include <stdio.h>
+
 char S2[] = {65, 108, 111, 32, 123, 103, 97, 108, 101, 114, 97, 125, 33, 0};
+
 int main (void) {
   char *pc = S2;
-  while (*pc)
-    printf ("%c", *pc++);
+  while (*pc){
+    if(*pc != 123 && *pc != 125)
+        printf ("%c", *pc);
+    pc++;
+  }
   printf("\n");
   return 0;
 }
 */
+/* Dicionário
+Registrador     Variável
+%rbx            s2
+*/
 
 .data
-S2:    .byte 65, 108, 111, 32, 123, 103, 97, 108, 101, 114, 97, 125, 33, 0
-Sf:  .string "%c"    /* primeira string de formato para printf */
-Sf2: .string "\n"    /* segunda string de formato para printf */
+s2: .byte 65, 108, 111, 32, 123, 103, 97, 108, 101, 114, 97, 125, 33, 0
+Sf: .string "%c"
+Sf2: .string "\n"
 
 .text
-.globl  main
+.globl main
 main:
-
 /********************************************************/
 /* mantenha este trecho aqui e nao mexa - prologo !!!   */
   pushq   %rbp
@@ -27,14 +36,18 @@ main:
   movq    %r12, -16(%rbp)  /* guarda r12 */
 /********************************************************/
 
-  movq  $S2, %r12  /* r12 = &S2 */
-
+movq $s2, %rbx # char *pc = S2;
 L1:
-  cmpb  $0, (%r12)  /* if (*pc == 0) ? */
-  je  L2          /* goto L2 */
+cmpb $0, (%rbx)
+je L3
 
-  movsbl  (%r12), %eax    /* eax = *r12 (estendendo o byte para 32 bits */
+cmpb $123, (%rbx)
+je L2
 
+cmpb $125, (%rbx)
+je L2
+
+movsbl (%rbx), %eax
 /*************************************************************/
 /* este trecho imprime o valor de %eax (estraga %eax)  */
   movq    $Sf, %rdi    /* primeiro parametro (ponteiro)*/
@@ -43,10 +56,14 @@ L1:
   call  printf       /* chama a funcao da biblioteca */
 /*************************************************************/
 
-  addq  $1, %r12  /* r12 += 1; */
-  jmp  L1         /* goto L1; */
+addq $1, %rbx
+jmp L1
 
-L2:  
+L2:
+addq $1, %rbx
+jmp L1
+
+L3:
 /*************************************************************/
 /* este trecho imprime o \n (estraga %eax)                  */
   movq    $Sf2, %rdi    /* primeiro parametro (ponteiro)*/
@@ -62,3 +79,4 @@ L2:
   leave
   ret      
 /***************************************************************/
+

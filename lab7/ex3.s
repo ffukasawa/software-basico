@@ -1,23 +1,22 @@
 /*
-char S2[] = {65, 108, 111, 32, 123, 103, 97, 108, 101, 114, 97, 125, 33, 0};
+#include <stdio.h>
+
 int main (void) {
-  char *pc = S2;
-  while (*pc)
-    printf ("%c", *pc++);
-  printf("\n");
+  int i = 1;
+  while(i < 11){
+    printf("%d\n", (i*i));
+    i++;
+  }
   return 0;
 }
 */
 
 .data
-S2:    .byte 65, 108, 111, 32, 123, 103, 97, 108, 101, 114, 97, 125, 33, 0
-Sf:  .string "%c"    /* primeira string de formato para printf */
-Sf2: .string "\n"    /* segunda string de formato para printf */
+Sf: .string "%d\n"
 
 .text
-.globl  main
+.globl main
 main:
-
 /********************************************************/
 /* mantenha este trecho aqui e nao mexa - prologo !!!   */
   pushq   %rbp
@@ -26,15 +25,14 @@ main:
   movq    %rbx, -8(%rbp)  /* guarda rbx */
   movq    %r12, -16(%rbp)  /* guarda r12 */
 /********************************************************/
-
-  movq  $S2, %r12  /* r12 = &S2 */
+movl $1, %ebx      # int i = 1;
 
 L1:
-  cmpb  $0, (%r12)  /* if (*pc == 0) ? */
-  je  L2          /* goto L2 */
+  cmp $11, %ebx        # while(i < 11)
+  jge L2               # sai do loop se i >= 11
 
-  movsbl  (%r12), %eax    /* eax = *r12 (estendendo o byte para 32 bits */
-
+  movl %ebx, %eax      # move para eax para printar e nao alterar ebx
+  imull %eax, %eax     # eax = i*i
 /*************************************************************/
 /* este trecho imprime o valor de %eax (estraga %eax)  */
   movq    $Sf, %rdi    /* primeiro parametro (ponteiro)*/
@@ -43,17 +41,10 @@ L1:
   call  printf       /* chama a funcao da biblioteca */
 /*************************************************************/
 
-  addq  $1, %r12  /* r12 += 1; */
-  jmp  L1         /* goto L1; */
+addl $1, %ebx
+jmp L1
 
-L2:  
-/*************************************************************/
-/* este trecho imprime o \n (estraga %eax)                  */
-  movq    $Sf2, %rdi    /* primeiro parametro (ponteiro)*/
-  movl  $0, %eax
-  call  printf       /* chama a funcao da biblioteca */
-/*************************************************************/
-
+L2:
 /***************************************************************/
 /* mantenha este trecho aqui e nao mexa - finalizacao!!!!      */
   movq  $0, %rax  /* rax = 0  (valor de retorno) */
