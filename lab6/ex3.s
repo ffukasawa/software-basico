@@ -41,7 +41,7 @@ je L3
 
 movl (%r12), %eax       # lê o número *p
 movl %eax, %edx         # copia para edx (teste)
-andl $1, %edx           # testa o bit menos significativo
+andl $1, %edx           # testa o bit menos significativo modificando edx e por isso fazemos nesse registrador e nao direto no eax
 cmpl $0, %edx           # se resultado == 0 -> par
 je   L2                 # se == 0 -> par (jump if equal to L2)
 
