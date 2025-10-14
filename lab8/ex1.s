@@ -16,7 +16,10 @@
     pushq %rbp
     movq  %rsp, %rbp
 
-  /* coloque seu codigo aqui */
+  movq $s1, %rdi     # endereço da string "ls -ls" vai no %rdi
+  call system        # chama a função system
+
+  movl $0, %eax
 
   /* finalizacao */
     leave
